@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EasyPercent - Percentage Calculator</title>
+  <style>
+    :root { --bg:#0f1115; --card:#171a21; --text:#e8ecf1; --muted:#9aa4b2; --accent:#6ee7b7; }
+    *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    body{margin:0;background:var(--bg);color:var(--text);padding:24px}
+    .wrap{max-width:900px;margin:0 auto;display:grid;gap:16px}
+    h1{margin:0 0 8px;font-size:28px}
+    .sub{margin:0 0 10px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr;gap:14px}
+    @media(min-width:900px){.grid{grid-template-columns:1fr 1fr}}
+    .card{background:var(--card);border:1px solid #242938;border-radius:14px;padding:16px}
+    .title{font-weight:700;margin:0 0 12px}
+    .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    input{width:120px;background:#0d1117;border:1px solid #2b3244;color:var(--text);padding:8px 10px;border-radius:10px;font-size:15px}
+    .result{margin-top:12px;padding:10px 12px;border-radius:10px;background:#0d1117;border:1px dashed #2d3650}
+    .num{color:var(--accent);font-weight:700}
+    .hint{font-size:12px;color:var(--muted);margin-top:8px}
+    .footer{margin-top:8px;text-align:center;color:var(--muted);font-size:12px}
+    .footer a{color:var(--accent);text-decoration:none}
+    .footer a:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>EasyPercent</h1>
+    <p class="sub">Percentage Calculator. Instant results as you type.</p>
+
+    <div class="grid">
+      <section class="card">
+        <p class="title">1) What is <em>X%</em> of <em>Y</em>?</p>
+        <div class="row">
+          <span>What is</span>
+          <input id="a_pct" type="number" step="any" placeholder="X" />
+          <span>% of</span>
+          <input id="a_base" type="number" step="any" placeholder="Y" />
+          <span>?</span>
+        </div>
+        <div class="result" id="a_out">Result: <span class="num">—</span></div>
+      </section>
+
+      <section class="card">
+        <p class="title">2) <em>X</em> is what percent of <em>Y</em>?</p>
+        <div class="row">
+          <input id="b_part" type="number" step="any" placeholder="X" />
+          <span>is what % of</span>
+          <input id="b_whole" type="number" step="any" placeholder="Y" />
+          <span>?</span>
+        </div>
+        <div class="result" id="b_out">Result: <span class="num">—</span></div>
+      </section>
+
+      <section class="card">
+        <p class="title">3) Increase / Decrease</p>
+        <div class="row">
+          <span>Initial Value</span>
+          <input id="c_old" type="number" step="any" placeholder="initial" />
+          <span>to</span>
+          <input id="c_new" type="number" step="any" placeholder="final" />
+        </div>
+        <div class="result" id="c_out">Change: <span class="num">—</span></div>
+        <div class="hint">Positive = increase, negative = decrease.</div>
+      </section>
+
+      <section class="card">
+        <p class="title">4) Add/ Subtract percentage from number</p>
+        <div class="row">
+          <span>Base</span>
+          <input id="d_base" type="number" step="any" placeholder="base" />
+          <span>Percent</span>
+          <input id="d_pct" type="number" step="any" placeholder="%" />
+        </div>
+        <div class="result" id="d_out">+%: <span class="num">—</span> | -%: <span class="num">—</span></div>
+      </section>
+    </div>
+
+    <div class="footer">
+      <span id="year"></span> No Copyright • vibe coded with OpenClaw •
+      <a href="https://github.com/ek-mc/easypercent-percentage-calculator" target="_blank" rel="nofollow">GitHub</a>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const fmt = (n) => Number.isFinite(n) ? n.toLocaleString(undefined,{maximumFractionDigits:6}) : '—';
+    const val = (id) => {
+      const v = parseFloat($(id).value);
+      return Number.isFinite(v) ? v : null;
+    };
+
+    function calcA(){
+      const p = val('a_pct'), y = val('a_base');
+      const r = (p!=null && y!=null) ? (p/100)*y : NaN;
+      $('a_out').innerHTML = `Result: <span class="num">${fmt(r)}</span>`;
+    }
+    function calcB(){
+      const x = val('b_part'), y = val('b_whole');
+      const r = (x!=null && y!=null && y!==0) ? (x/y)*100 : NaN;
+      $('b_out').innerHTML = `Result: <span class="num">${fmt(r)}%</span>`;
+    }
+    function calcC(){
+      const o = val('c_old'), n = val('c_new');
+      const abs = (o!=null && n!=null) ? (n-o) : NaN;
+      const pct = (o!=null && n!=null && o!==0) ? ((n-o)/o)*100 : NaN;
+      $('c_out').innerHTML = `Change: <span class="num">${fmt(abs)}</span> (<span class="num">${fmt(pct)}%</span>)`;
+    }
+    function calcD(){
+      const b = val('d_base'), p = val('d_pct');
+      const plus = (b!=null && p!=null) ? b*(1+p/100) : NaN;
+      const minus = (b!=null && p!=null) ? b*(1-p/100) : NaN;
+      $('d_out').innerHTML = `+%: <span class="num">${fmt(plus)}</span> | -%: <span class="num">${fmt(minus)}</span>`;
+    }
+
+    const handlers = [calcA, calcB, calcC, calcD];
+    document.querySelectorAll('input').forEach(inp => inp.addEventListener('input', () => handlers.forEach(h=>h())));
+    handlers.forEach(h=>h());
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
