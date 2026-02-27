@@ -2,6 +2,8 @@
 
 Simple, fast percentage calculator with instant updates (no submit buttons).
 
+🌐 Live version: https://easypercent.eu
+
 ## Features
 
 - What is X% of Y
