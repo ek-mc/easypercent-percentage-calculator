@@ -30,4 +30,4 @@ This is a static HTML app (`index.html`), so it can be deployed to:
 
 ## License
 
-This project is released under **The Unlicense** (public domain dedication).
+This project is released under **CC0 1.0 Universal**.
