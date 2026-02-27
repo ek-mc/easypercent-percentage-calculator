@@ -3,7 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EasyPercent - Percentage Calculator</title>
+  <title>EasyPercent.eu | Free Percentage Calculator</title>
+  <meta name="description" content="Free online percentage calculator. Instantly calculate percentages, increases/decreases, and add/subtract percentages." />
+  <link rel="canonical" href="https://easypercent.eu/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="EasyPercent.eu | Free Percentage Calculator" />
+  <meta property="og:description" content="Simple, fast percentage calculator with instant results as you type." />
+  <meta property="og:url" content="https://easypercent.eu/" />
+  <meta property="og:image" content="https://easypercent.eu/assets/screenshot.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EasyPercent.eu | Free Percentage Calculator" />
+  <meta name="twitter:description" content="Simple, fast percentage calculator with instant results as you type." />
+  <meta name="twitter:image" content="https://easypercent.eu/assets/screenshot.jpg" />
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   <style>
     :root { --bg:#0f1115; --card:#171a21; --text:#e8ecf1; --muted:#9aa4b2; --accent:#6ee7b7; }
@@ -17,13 +28,22 @@
     .card{background:var(--card);border:1px solid #242938;border-radius:14px;padding:16px}
     .title{font-weight:700;margin:0 0 12px}
     .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-    input{width:120px;background:#0d1117;border:1px solid #2b3244;color:var(--text);padding:8px 10px;border-radius:10px;font-size:15px}
+    input{width:140px;max-width:100%;background:#0d1117;border:1px solid #2b3244;color:var(--text);padding:10px 12px;border-radius:10px;font-size:16px}
     .result{margin-top:12px;padding:10px 12px;border-radius:10px;background:#0d1117;border:1px dashed #2d3650}
+    .result-actions{margin-top:8px}
+    .copy-btn{background:#111827;color:var(--text);border:1px solid #2b3244;border-radius:9px;padding:7px 10px;font-size:12px;cursor:pointer}
+    .copy-btn:hover{border-color:#3d4b66}
     .num{color:var(--accent);font-weight:700}
     .hint{font-size:12px;color:var(--muted);margin-top:8px}
     .footer{margin-top:8px;text-align:center;color:var(--muted);font-size:12px}
     .footer a{color:var(--accent);text-decoration:none}
     .footer a:hover{text-decoration:underline}
+    @media (max-width:600px){
+      body{padding:14px}
+      .card{padding:14px}
+      .row{gap:6px}
+      input{flex:1 1 140px;width:100%}
+    }
   </style>
 </head>
 <body>
@@ -42,6 +62,7 @@
           <span>?</span>
         </div>
         <div class="result" id="a_out">Result: <span class="num">—</span></div>
+        <div class="result-actions"><button class="copy-btn" data-copy-target="a_out">Copy result</button></div>
       </section>
 
       <section class="card">
@@ -53,6 +74,7 @@
           <span>?</span>
         </div>
         <div class="result" id="b_out">Result: <span class="num">—</span></div>
+        <div class="result-actions"><button class="copy-btn" data-copy-target="b_out">Copy result</button></div>
       </section>
 
       <section class="card">
@@ -64,6 +86,7 @@
           <input id="c_new" type="number" step="any" placeholder="final" />
         </div>
         <div class="result" id="c_out">Change: <span class="num">—</span></div>
+        <div class="result-actions"><button class="copy-btn" data-copy-target="c_out">Copy result</button></div>
         <div class="hint">Positive = increase, negative = decrease.</div>
       </section>
 
@@ -76,6 +99,7 @@
           <input id="d_pct" type="number" step="any" placeholder="%" />
         </div>
         <div class="result" id="d_out">+%: <span class="num">—</span> | -%: <span class="num">—</span></div>
+        <div class="result-actions"><button class="copy-btn" data-copy-target="d_out">Copy result</button></div>
       </section>
     </div>
 
@@ -117,8 +141,26 @@
       $('d_out').innerHTML = `+%: <span class="num">${fmt(plus)}</span> | -%: <span class="num">${fmt(minus)}</span>`;
     }
 
+    async function copyResult(targetId, button){
+      const text = $(targetId)?.innerText?.trim() || '';
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        const original = button.textContent;
+        button.textContent = 'Copied!';
+        setTimeout(() => { button.textContent = original; }, 1100);
+      } catch {
+        const original = button.textContent;
+        button.textContent = 'Copy failed';
+        setTimeout(() => { button.textContent = original; }, 1300);
+      }
+    }
+
     const handlers = [calcA, calcB, calcC, calcD];
     document.querySelectorAll('input').forEach(inp => inp.addEventListener('input', () => handlers.forEach(h=>h())));
+    document.querySelectorAll('[data-copy-target]').forEach(btn => {
+      btn.addEventListener('click', () => copyResult(btn.dataset.copyTarget, btn));
+    });
     handlers.forEach(h=>h());
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
