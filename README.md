@@ -44,3 +44,8 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 For issues, use [GitHub Issues](https://github.com/ek-mc/easypercent-percentage-calculator/issues).
 
+## Automation
+
+This repository uses GitHub Actions workflows:
+- `ci.yml`
+
