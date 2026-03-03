@@ -35,3 +35,12 @@ This is a static HTML app (`index.html`), so it can be deployed to:
 ## License
 
 This project is released under **CC0 1.0 Universal**. No copyright intended.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
+
+## Support
+
+For issues, use [GitHub Issues](https://github.com/ek-mc/easypercent-percentage-calculator/issues).
+
