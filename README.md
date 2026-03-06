@@ -1,5 +1,8 @@
 # EasyPercent - Percentage Calculator
 
+Live demo: https://easypercent.eu/
+
+
 Simple, fast percentage calculator with instant updates (no submit buttons).
 
 🌐 Live version: https://easypercent.eu
@@ -48,4 +51,3 @@ For issues, use [GitHub Issues](https://github.com/ek-mc/easypercent-percentage-
 
 This repository uses GitHub Actions workflows:
 - `ci.yml`
-
